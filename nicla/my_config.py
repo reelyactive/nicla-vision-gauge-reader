@@ -18,7 +18,7 @@ def get_config():
         # overriding the values configured in this file.
         # if False, the cofigured values will be used,
         # use the configured values if you know the gauge will be locked in place relative to the gauge
-        "use_color_dots" : False,
+        "use_color_dots" : True,
 
         # we need to identify colors used to capture the min and max points on the gauge,
         # and the physical center of the gauge.
