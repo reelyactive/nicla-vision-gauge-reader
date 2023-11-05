@@ -26,7 +26,9 @@ When the Nicla is attached, it should show up as an attached storage device, lik
 
 # Installing the Gauge Reader Software
 
-Download github repo: [GitHub - reelyactive/nicla-vision-gauge-reader](https://github.com/reelyactive/nicla-vision-gauge-readerC
+Download github repo: [GitHub - reelyactive/nicla-vision-gauge-reader ](https://github.com/reelyactive/nicla-vision-gauge-reader)
+
+
 
 Copy the contents of the folder `nicla` to the Nicla
 
@@ -42,13 +44,13 @@ NOTE: you can run main-gauge1.py from anywhere, it doesn't have to be the versio
 
 If the nicla is running while attached to OpenMV, you can see any `print` statements in the Serial Terminal:
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-15-52-18-image.png)
+![2023-11-05-15-52-18-image.png](md_images/2023-11-05-15-52-18-image.png)
 
-<img src="file:///Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-15-52-30-image.png" title="" alt="" width="467">
+<img src="md_images/2023-11-05-15-52-30-image.png" title="" alt="2023-11-05-15-52-30-image.png" width="357">
 
 Click on "Serial Terminal" to open the Serial Terminal:
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-15-57-27-image.png)
+<img src="md_images/2023-11-05-15-57-27-image.png" title="" alt="2023-11-05-15-57-27-image.png" width="468">
 
 (note the values in the Parens, we'll come back to that)
 
@@ -66,7 +68,9 @@ When the Nicla starts up on its own, it will run the file main.py
 
 The Frame Buffer on the right of the UI shows what the Nicla is looking at, along with additional graphics we've drawn on the captured image. This is important for setting up the device.
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-16-00-09-image.png)
+![2023-11-05-16-00-09-image.png](md_images/2023-11-05-16-00-09-image.png)
+
+
 
 # Tweaking the Nicla
 
@@ -80,13 +84,13 @@ The nicla should be setup while attached to a laptop running the, so you can see
 
 Set it up so that the gauge fills the screen:
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-16-01-39-image.png)
+![2023-11-05-16-01-39-image.png](md_images/2023-11-05-16-01-39-image.png)
 
 
 
 ### What the graphics on the gauge mean
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-16-09-33-image.png)
+![2023-11-05-16-09-33-image.png](md_images/2023-11-05-16-09-33-image.png)
 
 ### A Note about the framebuffer output
 
@@ -129,9 +133,11 @@ Any pixel that is within that range will be identified as that color. In real wo
 
 - Take note of the 3-value array being output in the Serial Terminal
 
+![2023-11-05-16-26-12-image.png](md_images/2023-11-05-16-26-12-image.png)
 
 
-![](/Users/donundeen/Library/Application%20Support/marktext/images/2023-11-05-16-27-32-image.png)
+
+
 
 
 
