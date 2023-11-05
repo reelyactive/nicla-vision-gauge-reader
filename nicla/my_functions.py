@@ -1,4 +1,8 @@
 import math
+import my_config
+
+
+
 
 # Only blobs that with more pixels than "pixel_threshold" and more area than "area_threshold" are
 # returned by "find_blobs" below. Change "pixels_threshold" and "area_threshold" if you change the
@@ -17,6 +21,49 @@ def get_color_center(img, thresh):
     if(center):
         return(center.cx(), center.cy(), 5)
     return False
+
+
+
+# functions for finding colored spots. Uses the threshold array's elements
+def get_red_center(img, thresholds):
+    return get_color_center(img, thresholds["red"])
+
+def get_green_center(img, thresholds):
+    return get_color_center(img, thresholds["green"])
+
+def get_blue_center(img, thresholds):
+    return get_color_center(img, thresholds["blue"])
+
+def get_yellow_center(img, thresholds):
+    return get_color_center(img, thresholds["yellow"])
+
+def get_min_center(img, thresholds):
+    config = my_config.get_config()
+    return get_color_center(img, thresholds[config["min_color"]])
+
+def get_max_center(img, thresholds):
+    config = my_config.get_config()
+    return get_color_center(img, thresholds[config["max_color"]])
+
+def get_center_center(img, thresholds):
+    config = my_config.get_config()
+    return get_color_center(img, thresholds[config["center_color"]])
+
+
+def get_center_circle_coords(img, thresholds):
+    coords = get_center_center(img, thresholds)
+    '''
+    # leaving this in in case we want a dot-less approach to finding the center of the gauge
+    if(coords == False):
+        circle = get_center_circle(img)
+        if(circle):
+            coords = (circle.x(), circle.y(), circle.r())
+    else:
+        coords = [coords[0], coords[1], 20]
+    '''
+    return coords
+
+
 
 
 
@@ -104,18 +151,15 @@ def rotate_radians(radians, max_radians):
         radians = (max_radians) +  radians
     return radians
 
-def radians_to_measurement(radians, radian_point_min, radian_point_max, marker_min, marker_max, max_radians):
 
+def radians_to_measurement(radians, radian_point_min, radian_point_max, marker_min, marker_max, max_radians):
     # reverse it
     radians = rotate_radians(radians, max_radians)
-
     rad_range = radian_point_max - radian_point_min
-
     marker_scale = (marker_max - marker_min) / rad_range
-
     measurement_mark = ((radians - radian_point_min) * marker_scale) + marker_min
-
     return (measurement_mark, radians / math.pi)
+
 
 # used by get_angle
 def angle_trunc(a):
@@ -137,12 +181,12 @@ def line_angle(l):
 
 
 running_avg_list = []
-running_avg_size = 3
 running_avg_value = 0
 
 # maintain a running average
-def update_running_avg_value(value):
+def update_running_avg_value(value, running_avg_size):
     global running_avg_value
+    global running_avg_list
     if(len(running_avg_list) >= running_avg_size):
         running_avg_list.pop(0)
     running_avg_list.append(value)
@@ -151,9 +195,6 @@ def update_running_avg_value(value):
         sumv += num
     running_avg_value = sumv / len(running_avg_list)
     return running_avg_value
-
-
-
 
 
 # get the circle closest to the center
@@ -183,6 +224,17 @@ def get_center_circle(img):
     return centermost_circle
 
 
+def polar_to_rectangular(radius, angle, x_c, y_c):
+    #angle = rotate_radians(angle, 2 * math.pi)
+    # Convert angle from radians to degrees
+    angle = angle + (.5 * math.pi)
+    angle_degrees = math.degrees(angle)
+
+    # Calculate the x and y coordinates in rectangular form
+    x = x_c + radius * math.cos(angle)
+    y = y_c + radius * math.sin(angle)
+
+    return x, y
 
 # `threshold` controls how many lines in the image are found. Only lines with
 # edge difference magnitude sums greater than `threshold` are detected...
@@ -209,3 +261,6 @@ def get_longest_needle_line(img, cx, cy, inner_detect_radius, outer_detect_radiu
                     longest_needle_line = l
                     longest_needle_len = line_length(l)
     return longest_needle_line
+
+
+
