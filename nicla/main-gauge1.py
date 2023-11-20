@@ -2,7 +2,9 @@
 
 # image library: https://docs.openmv.io/library/omv.image.html#
 # Sensor library: https://docs.openmv.io/library/omv.sensor.html
-import sensor, image, time, math
+import sensor, image, time, math, machine
+
+
 
 #import my resused functions and config vars
 import my_functions as my
@@ -11,6 +13,17 @@ config = my_config.get_config()
 
 #import ble functions
 import my_ble
+
+
+# Create and init RTC object. (for deep sleep)
+rtc = machine.RTC()
+
+# LED control
+from pyb import LED
+red_led = LED(1)
+green_led = LED(2)
+blue_led = LED(3)
+blue_led.on()
 
 
 ################ SETTING CONFIG VARS
@@ -50,6 +63,10 @@ running_avg_size = config["running_avg_size"]
 
 use_color_dots = config["use_color_dots"]
 
+sleepmode = config["sleepmode"]
+sleep_interval = config["sleep_interval"]
+sends_per_wake = config["sends_per_wake"]
+
 ############# END SETTING CONFIG VARS
 
 
@@ -84,7 +101,10 @@ latest_longest_needle_line = False
 # running average value
 avg_value = 0
 
-while(True):
+
+sendcount = 0
+while(sleepmode == False or sendcount < sends_per_wake):
+
     clock.tick()
     cmin = False
     cmax = False
@@ -129,15 +149,16 @@ while(True):
     longest_needle_line = False
     longest_needle_len = 0
 
-
     # find the longest gauge needle line
     l = my.get_longest_needle_line(img, cmidx, cmidy, inner_detect_radius, outer_detect_radius)
     if(l):
         longest_needle_line = l
         longest_needle_len = my.line_length(l)
 
+    green_led.off()
     # if we find a needle line, save it for the times when we don't find one, and compute these other values.
     if(longest_needle_line):
+        green_led.on()
         # save this line value
         latest_longest_needle_line = longest_needle_line
         # get the the point that represents where the gauge needle is pointing
@@ -153,9 +174,11 @@ while(True):
         avg_value = my.update_running_avg_value(latest_gauge_value[0], running_avg_size)
         # this will be the value we publish.
 
+        ########### SENDING VALUE ###############
+        my_ble.send_value(avg_value)
+        if(sleepmode == True):
+            sendcount = sendcount + 1
 
-    ########### SENDING VALUE ###############
-    my_ble.send_value(avg_value)
 
 
 
@@ -166,7 +189,8 @@ while(True):
     # img.draw_string(50, 30, str(latest_gauge_value[1]), color= (color),scale = 2 )
 
     # draw the identified needle line
-    if(latest_longest_needle_line):
+    if(longest_needle_line):
+    #if(latest_longest_needle_line):
         img.draw_line(latest_longest_needle_line.line(), color = (0,0,255),thickness=3)
 
     # draw a circle where the needle meets the outer gauge identification circle (aka the Reading Point)
@@ -196,3 +220,16 @@ while(True):
     if(cmax):
         img.draw_circle(int(cmax[0]), int(cmax[1]), 3, color = (0, 255, 0), thickness = 3, fill = False)
 
+
+blue_led.off()
+
+if(sleepmode == True):
+    # Shutdown the sensor (pulls PWDN high).
+    sensor.shutdown(True)
+
+    # Enable RTC interrupts every 30 seconds.
+    # Note the camera will RESET after wakeup from Deepsleep Mode.
+    rtc.wakeup(sleep_interval)
+
+    # Enter Deepsleep Mode.
+    machine.deepsleep()

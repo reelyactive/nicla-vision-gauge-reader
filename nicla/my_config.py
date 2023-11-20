@@ -2,6 +2,11 @@ import math, sensor
 
 def get_config():
     config_data = {
+
+        "sleepmode" : False, # if true, sleep in between sending data (set to false for debugging)
+        "sleep_interval" : 10000, # how long to sleep, in ms
+        "sends_per_wake" : 10, # how many data sends per wake session
+
         "framesize": sensor.QVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
         "screen_width" : 160, # the width of the part of the screen that's captured, centered.
         "screen_height" : 120,# the height of the part of the screen that's captured, centered.
@@ -18,7 +23,7 @@ def get_config():
         # overriding the values configured in this file.
         # if False, the cofigured values will be used,
         # use the configured values if you know the gauge will be locked in place relative to the gauge
-        "use_color_dots" : True,
+        "use_color_dots" : False,
 
         # we need to identify colors used to capture the min and max points on the gauge,
         # and the physical center of the gauge.
