@@ -3,21 +3,20 @@ import math, sensor
 def get_config():
     config_data = {
 
+        # SECTION: Sleep Mode Configuration
+        # Use this section to turn Low-Power Mode (aka sleepmode) on or off
+        # if you turn it on, bear in mind this will cause the Nicla to disconnect
+        # from your computer when it goes to sleep,
+        # making updating the config file on the device tricky.
         "sleepmode" : False, # if true, sleep in between sending data (set to false for debugging)
         "sleep_interval" : 10000, # how long to sleep, in ms
         "sends_per_wake" : 10, # how many data sends per wake session
 
-        "framesize": sensor.QVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
-        "screen_width" : 160, # the width of the part of the screen that's captured, centered.
-        "screen_height" : 120,# the height of the part of the screen that's captured, centered.
 
-        # we define two circles centered around the gauge center
-        # if a line passed through both circles, it is considered to be the gauge needle
-        # the outer_detect_radius must therefore NOT be intersected by the tail of the gauge
-        "outer_detect_radius": 40,
-        "inner_detect_radius": 25,
-
-
+        # SECTION: Color Configuration
+        # When the position of the nicla relative to the gauge isn't certain,
+        # we can use colored dots to indicate the min and max points of the gauge
+        # and also the center point around which the needle turns.
         # if use_color_dots is set to True, then the color thresholds below will be used
         # to find the min, max, and center points on the gauge,
         # overriding the values configured in this file.
@@ -51,8 +50,9 @@ def get_config():
         "max_color" : "green",# the color of the dot at the MAXIMUM value of the gauge
         "center_color" : "yellow", # the color of the dot at the CENTER of the gauge
 
-        "enable_lens_corr" : False, # turn on for straighter lines...
 
+        # SECTION: Defining the min and max points and values of the gauge
+        # This needs to be configured correctly if we are NOT using the colored dots method
         # Define the known points and their corresponding measurement marks
         # for the below, assume 0 radians is straight down
         # NOTE: these values get overridden when colored dots are detected
@@ -62,10 +62,22 @@ def get_config():
         "marker_min": 0,   # the minimum gauge value
         "marker_max": 100, # the maximum gauge value (keep this value if you want to look at gauges in terms of %-age
 
-        # coordinates of the center of the guage.
+
+        # SECTION: Gauge needle dection circles
+        # (may need to be configured depending on how big the needles "tail" is)
+        # we define two circles centered around the gauge center
+        # if a line passed through both circles, it is considered to be the gauge needle
+        # the outer_detect_radius must therefore NOT be intersected by the tail of the gauge
+        "outer_detect_radius": 40,
+        "inner_detect_radius": 25,
+
+
+        # SECTION: coordinates of the center of the guage. This will usually be half of the width and height
         "center_x" : 80,
         "center_y" : 60,
 
+
+        # SECTION: Output smoothing configuration
         "running_avg_size": 3, # to smooth out values, we maintain a running average.
         # This is how many values (current and previous) we store to compute that average
         # Higher number = slower change, smoother values
@@ -73,6 +85,15 @@ def get_config():
         # because the code often reads opposite sides of of the needle, this causes a small fluctuation
         # averaging the past 2-3 values smooths that out.
 
+
+        # SECTION: camera image size and location (probably don't need to mess with this)
+        # https://docs.openmv.io/library/omv.sensor.html#sensor.set_framesize
+        "framesize": sensor.HVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
+        "screen_width" : 320, # the width of the part of the screen that's captured, centered.
+        "screen_height" : 240,# the height of the part of the screen that's captured, centered.
+
+        # SECTION: Etc. Probably don't need to edit these things.
+        "enable_lens_corr" : False, # turn on for straighter lines...
         "max_radians": 2 * math.pi, # the number of radians in a circle. This is a math thing and shouldn't need to change
 
     }

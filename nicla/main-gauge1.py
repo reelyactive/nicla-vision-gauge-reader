@@ -78,6 +78,7 @@ cmidy = midy
 # sensor setup
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
+#sensor.set_pixformat(sensor.BAYER)
 
 # sensor.set_framesize(sensor.QQVGA)  # sensor.QQVGA: 160x120
 sensor.set_framesize(framesize) # this approach seems to get me better color for some reason
@@ -111,11 +112,13 @@ while(sleepmode == False or sendcount < sends_per_wake):
 
     # capture image
     img = sensor.snapshot()
+    # Scale the image 50%. We capture an image too large for the chip to process. But we can scale down.
+    img.crop(.5, .5)
     if enable_lens_corr: img.lens_corr(1.8) # for 2.8mm lens...
 
     # print out the rgb value in the center pixel.
     # Used to identify colors that can be used for color tracking
-    print(image.rgb_to_lab(img.get_pixel(int(midx), int(midy))))
+    #print(image.rgb_to_lab(img.get_pixel(int(midx), int(midy))))
 
     if(use_color_dots):
         cmin = my.get_min_center(img, thresholds)
