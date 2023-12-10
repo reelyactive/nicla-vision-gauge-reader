@@ -1,4 +1,4 @@
-# rename to main.py to run on the nicla. Make sure that my_functions.py is also on the nicla device
+# rename to main.py to run on the nicla. Make sure that ra_functions.py is also on the nicla device
 
 # image library: https://docs.openmv.io/library/omv.image.html#
 # Sensor library: https://docs.openmv.io/library/omv.sensor.html
@@ -7,12 +7,12 @@ import sensor, image, time, math, machine
 
 
 #import my resused functions and config vars
-import my_functions as my
-import my_config
-config = my_config.get_config()
+import ra_functions as my
+import ra_config
+config = ra_config.get_config()
 
 #import ble functions
-import my_ble
+import ra_ble
 
 
 # Create and init RTC object. (for deep sleep)
@@ -178,7 +178,7 @@ while(sleepmode == False or sendcount < sends_per_wake):
         # this will be the value we publish.
 
         ########### SENDING VALUE ###############
-        my_ble.send_value(avg_value)
+        ra_ble.send_value(avg_value)
         if(sleepmode == True):
             sendcount = sendcount + 1
 
