@@ -1,7 +1,13 @@
+
+############
+# Copyright reelyActive 2023-2024
+# We believe in an open Internet of Things
+############
+
+# utility functions for the gauge reader code
+
 import math
 import ra_config
-
-
 
 
 # Only blobs that with more pixels than "pixel_threshold" and more area than "area_threshold" are
