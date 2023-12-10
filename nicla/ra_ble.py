@@ -1,8 +1,11 @@
-# This example demonstrates a simple temperature sensor peripheral.
-#
-# The sensor's local value updates every second, and it will notify
-# any connected central every 10 seconds.
-# Comment
+
+############
+# Copyright reelyActive 2023-2024
+# We believe in an open Internet of Things
+############
+
+# This code handles the publishing of guage reader levels via BLE.
+# call the send_value function with a value from 0-100
 
 import bluetooth
 import random
