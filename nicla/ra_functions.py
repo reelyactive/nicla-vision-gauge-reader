@@ -1,5 +1,5 @@
 import math
-import my_config
+import ra_config
 
 
 
@@ -38,15 +38,15 @@ def get_yellow_center(img, thresholds):
     return get_color_center(img, thresholds["yellow"])
 
 def get_min_center(img, thresholds):
-    config = my_config.get_config()
+    config = ra_config.get_config()
     return get_color_center(img, thresholds[config["min_color"]])
 
 def get_max_center(img, thresholds):
-    config = my_config.get_config()
+    config = ra_config.get_config()
     return get_color_center(img, thresholds[config["max_color"]])
 
 def get_center_center(img, thresholds):
-    config = my_config.get_config()
+    config = ra_config.get_config()
     return get_color_center(img, thresholds[config["center_color"]])
 
 
