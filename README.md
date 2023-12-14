@@ -4,6 +4,13 @@ nicla-vision-gauge-reader
 Read gauges using machine vision and relay the data via Bluetooth Low Energy.
 
 
+Getting Started
+---------------
+
+Follow our step-by-step tutorial to get started with the Nicla Vision:
+- [Nicla Vision Development Guide](https://reelyactive.github.io/diy/nicla-vision-dev/)
+
+
 Installing OpenMV
 -----------------
 
@@ -23,7 +30,7 @@ Installing the Gauge Reader Software
 
 When the Nicla is attached, it should show up as an attached storage device, like a USB drive. You can add files to the Nicla just by copying files to this drive.
 
-Clone this repository and copy the contents of the folder `nicla` to the Nicla.  Ensure that the files my_config.py and my_functions.py are on the Nicla, if not, when you run main-gauge1.py, it won't find these dependencies.
+Clone this repository and copy the contents of the folder `nicla` to the Nicla.  Ensure that the files ra_config.py and ra_functions.py are on the Nicla, if not, when you run main-gauge1.py, it won't find these dependencies.
 
 Once you've done this, you can run main-gauge1.py in OpenMV.
 
@@ -57,7 +64,7 @@ The Frame Buffer on the right of the UI shows what the Nicla is looking at, alon
 
 ### Tweaking the gauge reader
 
-my_config.py should be the only file you need to edit, depending on your installation requirements. The file is heavily commented. Make sure you're editing the my_config.py that's on the Nicla itself
+ra_config.py should be the only file you need to edit, depending on your installation requirements. The file is heavily commented. Make sure you're editing the ra_config.py that's on the Nicla itself
 
 
 Physical setup
@@ -81,7 +88,7 @@ You'll notice that the graphics seem to pop in an out. That's because in each de
 
 **There are two ways to set up the Nicla to look at the gauge:**
 
-1.  Position it really carefully so that the center of the gauge and the minimum and maximum gauge values are at known positions. Then define those positions in the my_config.py file. You can iterate toward correct values by looking at the graphics drawn over the framebuffer image
+1.  Position it really carefully so that the center of the gauge and the minimum and maximum gauge values are at known positions. Then define those positions in the ra_config.py file. You can iterate toward correct values by looking at the graphics drawn over the framebuffer image
 
 2. Use colored dots to indicate the minimum and maximum gauge values and the center of the gauge. Currently the colors are
    
@@ -120,9 +127,15 @@ Any pixel that is within that range will be identified as that color. In real wo
   
   - NOTE that the first value is LIGHTNESS, so you could try a wider range on that.
 
-- Plug this new range array into the my_config.py, following the instructions there.
+- Plug this new range array into the ra_config.py, following the instructions there.
 
 - Run the code again and see if it works!
+
+
+Acknowledgements
+----------------
+
+This project is based on the [OpenMV Project](https://openmv.io/pages/about) which we invite you to consider sponsoring at [github.com/sponsors/openmv](https://github.com/sponsors/openmv).
 
 
 Contributing
