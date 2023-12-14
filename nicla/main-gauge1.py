@@ -1,8 +1,8 @@
 
-############
+#
 # Copyright reelyActive 2023-2024
 # We believe in an open Internet of Things
-############
+#
 
 # rename to main.py to run on the nicla. Make sure that ra_functions.py is also on the nicla device
 

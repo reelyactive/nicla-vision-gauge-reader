@@ -1,8 +1,8 @@
 
-############
+#
 # Copyright reelyActive 2023-2024
 # We believe in an open Internet of Things
-############
+#
 
 # This code handles the publishing of guage reader levels via BLE.
 # call the send_value function with a value from 0-100

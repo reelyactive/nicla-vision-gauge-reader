@@ -1,8 +1,8 @@
 
-############
+#
 # Copyright reelyActive 2023-2024
 # We believe in an open Internet of Things
-############
+#
 
 # utility functions for the gauge reader code
 
