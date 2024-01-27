@@ -1,10 +1,4 @@
-
-#
-# Copyright reelyActive 2023-2024
-# We believe in an open Internet of Things
-#
-
-# rename to main.py to run on the nicla. Make sure that ra_functions.py is also on the nicla device
+# rename to main.py to run on the nicla. Make sure that my_functions.py is also on the nicla device
 
 # image library: https://docs.openmv.io/library/omv.image.html#
 # Sensor library: https://docs.openmv.io/library/omv.sensor.html
@@ -13,12 +7,12 @@ import sensor, image, time, math, machine
 
 
 #import my resused functions and config vars
-import ra_functions as my
-import ra_config
-config = ra_config.get_config()
+import my_functions as my
+import my_config
+config = my_config.get_config()
 
 #import ble functions
-import ra_ble
+import my_ble
 
 
 # Create and init RTC object. (for deep sleep)
@@ -37,6 +31,9 @@ blue_led.on()
 #thresholds = sticker_thresholds
 thresholds = config["color_thresholds"]
 
+
+# are we in color calibration mode, where we spit out the LAB color nvalues for the center pixel?
+color_calibration_on = config["color_calibration_on"]
 
 # Define the known points and their corresponding measurement marks
 # for the below, assume 0 radians is straight down
@@ -124,7 +121,8 @@ while(sleepmode == False or sendcount < sends_per_wake):
 
     # print out the rgb value in the center pixel.
     # Used to identify colors that can be used for color tracking
-    #print(image.rgb_to_lab(img.get_pixel(int(midx), int(midy))))
+    if(color_calibration_on):
+        print(image.rgb_to_lab(img.get_pixel(int(midx), int(midy))))
 
     if(use_color_dots):
         cmin = my.get_min_center(img, thresholds)
@@ -184,7 +182,7 @@ while(sleepmode == False or sendcount < sends_per_wake):
         # this will be the value we publish.
 
         ########### SENDING VALUE ###############
-        ra_ble.send_value(avg_value)
+        my_ble.send_value(avg_value)
         if(sleepmode == True):
             sendcount = sendcount + 1
 
