@@ -1,13 +1,7 @@
-
-#
-# Copyright reelyActive 2023-2024
-# We believe in an open Internet of Things
-#
-
-# utility functions for the gauge reader code
-
 import math
 import ra_config
+
+
 
 
 # Only blobs that with more pixels than "pixel_threshold" and more area than "area_threshold" are
@@ -44,15 +38,15 @@ def get_yellow_center(img, thresholds):
     return get_color_center(img, thresholds["yellow"])
 
 def get_min_center(img, thresholds):
-    config = ra_config.get_config()
+    config = my_config.get_config()
     return get_color_center(img, thresholds[config["min_color"]])
 
 def get_max_center(img, thresholds):
-    config = ra_config.get_config()
+    config = my_config.get_config()
     return get_color_center(img, thresholds[config["max_color"]])
 
 def get_center_center(img, thresholds):
-    config = ra_config.get_config()
+    config = my_config.get_config()
     return get_color_center(img, thresholds[config["center_color"]])
 
 

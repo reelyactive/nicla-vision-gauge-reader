@@ -1,4 +1,4 @@
-# rename to main.py to run on the nicla. Make sure that my_functions.py is also on the nicla device
+# rename to main.py to run on the nicla. Make sure that ra_functions.py is also on the nicla device
 
 # image library: https://docs.openmv.io/library/omv.image.html#
 # Sensor library: https://docs.openmv.io/library/omv.sensor.html
@@ -6,13 +6,13 @@ import sensor, image, time, math, machine
 
 
 
-#import my resused functions and config vars
-import my_functions as my
-import my_config
-config = my_config.get_config()
+#import ra resused functions and config vars
+import ra_functions as ra
+import ra_config
+config = ra_config.get_config()
 
 #import ble functions
-import my_ble
+import ra_ble
 
 
 # Create and init RTC object. (for deep sleep)
@@ -125,11 +125,11 @@ while(sleepmode == False or sendcount < sends_per_wake):
         print(image.rgb_to_lab(img.get_pixel(int(midx), int(midy))))
 
     if(use_color_dots):
-        cmin = my.get_min_center(img, thresholds)
-        cmax = my.get_max_center(img, thresholds)
+        cmin = ra.get_min_center(img, thresholds)
+        cmax = ra.get_max_center(img, thresholds)
 
         # find the circle in the center of the gauge
-        centermost_circle_coords = my.get_center_circle_coords(img, thresholds)
+        centermost_circle_coords = ra.get_center_circle_coords(img, thresholds)
 
         # update the computed center point
         if(latest_center_circle_coords):
@@ -140,13 +140,13 @@ while(sleepmode == False or sendcount < sends_per_wake):
         # then determine the angles and use those values to set the
         # radian_point_min and radian_point_max values
         if(cmin and cmax and latest_center_circle_coords):
-            radian_point_min = my.rotate_radians(my.get_angle(cmidx, cmidy, cmin[0], cmin[1], height), max_radians)
-            radian_point_max = my.rotate_radians(my.get_angle(cmidx, cmidy, cmax[0], cmax[1], height), max_radians)
+            radian_point_min = ra.rotate_radians(ra.get_angle(cmidx, cmidy, cmin[0], cmin[1], height), max_radians)
+            radian_point_max = ra.rotate_radians(ra.get_angle(cmidx, cmidy, cmax[0], cmax[1], height), max_radians)
 
     if(use_color_dots == False):
         # calculate the cmin and cmax coordinate based on the radians values?
-        cmin = my.polar_to_rectangular(outer_detect_radius, radian_point_min, cmidx, cmidy)
-        cmax = my.polar_to_rectangular(outer_detect_radius, radian_point_max, cmidx, cmidy)
+        cmin = ra.polar_to_rectangular(outer_detect_radius, radian_point_min, cmidx, cmidy)
+        cmax = ra.polar_to_rectangular(outer_detect_radius, radian_point_max, cmidx, cmidy)
         centermost_circle_coords = (cmidx, cmidy,5)
 
     # if we found a center circle, hang on to it for times when we don't find one
@@ -157,10 +157,10 @@ while(sleepmode == False or sendcount < sends_per_wake):
     longest_needle_len = 0
 
     # find the longest gauge needle line
-    l = my.get_longest_needle_line(img, cmidx, cmidy, inner_detect_radius, outer_detect_radius)
+    l = ra.get_longest_needle_line(img, cmidx, cmidy, inner_detect_radius, outer_detect_radius)
     if(l):
         longest_needle_line = l
-        longest_needle_len = my.line_length(l)
+        longest_needle_len = ra.line_length(l)
 
     green_led.off()
     # if we find a needle line, save it for the times when we don't find one, and compute these other values.
@@ -169,20 +169,20 @@ while(sleepmode == False or sendcount < sends_per_wake):
         # save this line value
         latest_longest_needle_line = longest_needle_line
         # get the the point that represents where the gauge needle is pointing
-        latest_reading_point = my.line_circle_intersect_point(longest_needle_line, cmidx, cmidy, outer_detect_radius)
+        latest_reading_point = ra.line_circle_intersect_point(longest_needle_line, cmidx, cmidy, outer_detect_radius)
         # determine that lines angle
-        latest_angle = my.get_angle(cmidx, cmidy, latest_reading_point[0], latest_reading_point[1], height)
+        latest_angle = ra.get_angle(cmidx, cmidy, latest_reading_point[0], latest_reading_point[1], height)
         # now get the value of the gauge, based on that value
-        latest_gauge_value = my.radians_to_measurement(latest_angle, radian_point_min, radian_point_max, marker_min, marker_max, max_radians)
+        latest_gauge_value = ra.radians_to_measurement(latest_angle, radian_point_min, radian_point_max, marker_min, marker_max, max_radians)
 
         # maintain a running average, to even out the values a bit.
         # especially since the line detection tends to flip back and forth
         # btw opposite sides of the needle, giving slightly different values
-        avg_value = my.update_running_avg_value(latest_gauge_value[0], running_avg_size)
+        avg_value = ra.update_running_avg_value(latest_gauge_value[0], running_avg_size)
         # this will be the value we publish.
 
         ########### SENDING VALUE ###############
-        my_ble.send_value(avg_value)
+        ra_ble.send_value(avg_value)
         if(sleepmode == True):
             sendcount = sendcount + 1
 
