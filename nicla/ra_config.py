@@ -1,11 +1,3 @@
-
-#
-# Copyright reelyActive 2023-2024
-# We believe in an open Internet of Things
-#
-
-# configuration data. Adjust these values to suit your installation requirements.
-
 import math, sensor
 
 def get_config():
@@ -31,6 +23,11 @@ def get_config():
         # if False, the cofigured values will be used,
         # use the configured values if you know the gauge will be locked in place relative to the gauge
         "use_color_dots" : False,
+
+        # Color Calibration Mode: When this is true,
+        # the LAB color value of the center pixel will be printed to the Serial Terminal
+        # est to False when running in production
+        "color_calibration_on" : False,
 
         # we need to identify colors used to capture the min and max points on the gauge,
         # and the physical center of the gauge.
@@ -96,6 +93,7 @@ def get_config():
 
         # SECTION: camera image size and location (probably don't need to mess with this)
         # https://docs.openmv.io/library/omv.sensor.html#sensor.set_framesize
+        # "framesize": sensor.QVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
         "framesize": sensor.HVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
         "screen_width" : 320, # the width of the part of the screen that's captured, centered.
         "screen_height" : 240,# the height of the part of the screen that's captured, centered.
