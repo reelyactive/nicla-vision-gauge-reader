@@ -1,3 +1,9 @@
+
+#
+# Copyright reelyActive 2023-2024
+# We believe in an open Internet of Things
+#
+
 # rename to main.py to run on the nicla. Make sure that ra_functions.py is also on the nicla device
 
 # image library: https://docs.openmv.io/library/omv.image.html#
@@ -6,7 +12,7 @@ import sensor, image, time, math, machine
 
 
 
-#import ra resused functions and config vars
+#import reelyActive functions and config vars
 import ra_functions as ra
 import ra_config
 config = ra_config.get_config()

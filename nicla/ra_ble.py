@@ -1,34 +1,24 @@
-# This example demonstrates a simple temperature sensor peripheral.
+
 #
-# The sensor's local value updates every second, and it will notify
-# any connected central every 10 seconds.
-# Comment
+# Copyright reelyActive 2023-2024
+# We believe in an open Internet of Things
+#
 
 import bluetooth
-import random
-import struct
-import time
-from ble_advertising import advertising_payload
-from machine import LED
-from micropython import const
-
-
 
 
 ble = bluetooth.BLE()
 ble.active(True)
 
 
-
-
 def send_value(value):
     # value is a percentage
-    # we want a hex value btw 0 and 65535,
-    # then split into TWO 16 byte values (higher and lower)
+    # we want a hex value btw 0 and 65535 (16-bits),
+    # then split into TWO bytes (MSB and LSB)
     bitvalue = int(value * .01 * 65535)
     high = (bitvalue >> 8)
     low = (bitvalue & 0x00FF)
-    print("sending: ", value, bitvalue, hex(bitvalue), hex(high), hex(low), high, low )
+
     # Advertising payload bytes:
     # 0:   0x05 = Length (not including the length byte itself)
     # 1:   0x16 = 16-bit service data (from GAP)

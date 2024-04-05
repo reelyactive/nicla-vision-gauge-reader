@@ -7,8 +7,9 @@ Read gauges using machine vision and relay the data via Bluetooth Low Energy.
 Getting Started
 ---------------
 
-Follow our step-by-step tutorial to get started with the Nicla Vision:
+Follow our step-by-step tutorial to get started with the Nicla Vision and then to configure it as a gauge reader:
 - [Nicla Vision Development Guide](https://reelyactive.github.io/diy/nicla-vision-dev/)
+- [Configure a Nicla Vision Gauge Reader](https://reelyactive.github.io/diy/nicla-vision-gauge-reader-config/)
 
 
 Installing OpenMV
@@ -155,7 +156,7 @@ License
 
 MIT License
 
-Copyright (c) 2023 [reelyActive](https://www.reelyactive.com)
+Copyright (c) 2023-2024 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
