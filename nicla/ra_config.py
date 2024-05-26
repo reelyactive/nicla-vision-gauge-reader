@@ -1,10 +1,3 @@
-
-#
-# Copyright reelyActive 2023-2024
-# We believe in an open Internet of Things
-#
-
-
 import math, sensor
 
 def get_config():
@@ -100,10 +93,13 @@ def get_config():
 
         # SECTION: camera image size and location (probably don't need to mess with this)
         # https://docs.openmv.io/library/omv.sensor.html#sensor.set_framesize
-        # "framesize": sensor.QVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
-        "framesize": sensor.HVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
+        "framesize": sensor.QVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
+        # "framesize": sensor.HVGA, # this is a preset that specifies the size of the frame that's captured. QVGA is 320x240
+        "wide_angle_view" : True, # set the sensor for wide field of view (True) or not (False). only works if "framesize" is sensor.QVGA
+        # NOTE: for wide_angle_view to work, MAKE SURE YOUR MicroPython version is 1.22 or higher. in OpenMV, use "Install the Latest Development Release"
         "screen_width" : 320, # the width of the part of the screen that's captured, centered.
         "screen_height" : 240,# the height of the part of the screen that's captured, centered.
+
 
         # SECTION: Etc. Probably don't need to edit these things.
         "enable_lens_corr" : False, # turn on for straighter lines...
