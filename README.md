@@ -15,7 +15,7 @@ Follow our step-by-step tutorial to get started with the Nicla Vision and then t
 BLE Advertising Data
 --------------------
 
-The [nicla/ra_ble.py](blob/master/nicla/ra_ble.py) file specifies the Bluetooth Low Energy advertising packet data.  The gauge value is encoded as 16-bit Service Data of the __Generic Level__ characteristic, a unitless value ranging from 0-65535, as specified in the Bluetooth GATT Specification Supplement.
+The [nicla/ra_ble.py](nicla/ra_ble.py) file specifies the Bluetooth Low Energy advertising packet data.  The gauge value is encoded as 16-bit Service Data of the __Generic Level__ characteristic, a unitless value ranging from 0-65535, as specified in the Bluetooth GATT Specification Supplement.
 
 This service data is formatted in the _ADV_PAYLOAD byte array as follows:
 
