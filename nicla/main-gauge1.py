@@ -1,4 +1,3 @@
-
 #
 # Copyright reelyActive 2023-2024
 # We believe in an open Internet of Things
@@ -66,6 +65,7 @@ inner_detect_radius = config["inner_detect_radius"]
 # configs for the sensor
 framesize = config["framesize"]
 enable_lens_corr = config["enable_lens_corr"]
+wide_angle_view  = config["wide_angle_view"]
 
 # the size of the running average list
 running_avg_size = config["running_avg_size"]
@@ -86,6 +86,7 @@ cmidy = midy
 
 # sensor setup
 sensor.reset()
+sensor.ioctl(sensor.IOCTL_SET_FOV_WIDE, wide_angle_view)
 sensor.set_pixformat(sensor.RGB565)
 #sensor.set_pixformat(sensor.BAYER)
 
@@ -122,7 +123,7 @@ while(sleepmode == False or sendcount < sends_per_wake):
     # capture image
     img = sensor.snapshot()
     # Scale the image 50%. We capture an image too large for the chip to process. But we can scale down.
-    img.crop(.5, .5)
+    img.crop(x_scale=.5, y_scale=.5)
     if enable_lens_corr: img.lens_corr(1.8) # for 2.8mm lens...
 
     # print out the rgb value in the center pixel.
