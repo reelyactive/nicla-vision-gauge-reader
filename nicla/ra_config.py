@@ -1,3 +1,9 @@
+#
+# Copyright reelyActive 2023-2024
+# We believe in an open Internet of Things
+#
+
+
 import math, sensor
 
 def get_config():
