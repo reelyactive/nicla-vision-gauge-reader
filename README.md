@@ -1,7 +1,7 @@
 nicla-vision-gauge-reader
 =========================
 
-Read gauges using machine vision and relay the data via Bluetooth Low Energy.
+Read analogue gauges using machine vision and relay the data wirelessly via Bluetooth Low Energy.
 
 
 Getting Started
@@ -10,6 +10,41 @@ Getting Started
 Follow our step-by-step tutorial to get started with the Nicla Vision and then to configure it as a gauge reader:
 - [Nicla Vision Development Guide](https://reelyactive.github.io/diy/nicla-vision-dev/)
 - [Configure a Nicla Vision Gauge Reader](https://reelyactive.github.io/diy/nicla-vision-gauge-reader-config/)
+
+
+BLE Advertising Data
+--------------------
+
+The __nicla/ra_ble.py__ file specifies the Bluetooth Low Energy advertising packet data.  The gauge value is encoded as 16-bit Service Data of the __Generic Level__ characteristic, a unitless value ranging from 0-65535, as specified in the Bluetooth GATT Specification Supplement.
+
+This service data is formatted in the _ADV_PAYLOAD byte array as follows:
+
+| Byte offset | Value        | Description                                     |
+|:------------|:-------------|:------------------------------------------------|
+| 0           | 0x05         | Length in bytes (self-excluded)                 |
+| 1           | 0x16         | 16-bit Service Data (from GAP)                  |
+| 2           | 0xf9         | LSB of Generic Level characteristic ID (0x2af9) |
+| 3           | 0x2a         | MSB of Generic Level characteristic ID (0x2af9) |
+| 4           | Variable     | LSB of Generic Level (Gauge Read)               |
+| 5           | Variable     | MSB of Generic Level (Gauge Read)               |
+
+The __Generic Level__ characteristic is interpreted as the __levelPercentage__ property in [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware, as processed by its [advlib-ble-services](https://github.com/reelyactive/advlib-ble-services) library, ranging from 0-100.
+
+### Battery Level ###
+
+If available, the battery level of the Nicla Vision can also be included in the same BLE advertising packet.  In this case it is encoded as 16-bit Service Data of the __Battery Level__ characteristic, an integer value ranging from 0-100, as specified in the Bluetooth GATT Specification Supplement.
+
+This service data would be appended to the _ADV_PAYLOAD byte array as follows:
+
+| Byte offset | Value        | Description                                     |
+|:------------|:-------------|:------------------------------------------------|
+| 6           | 0x04         | Length in bytes (self-excluded)                 |
+| 7           | 0x16         | 16-bit Service Data (from GAP)                  |
+| 8           | 0x19         | LSB of Battery Level characteristic ID (0x2a19) |
+| 9           | 0x2a         | MSB of Battery Level characteristic ID (0x2a19) |
+| 10          | Variable     | Battery level (0 = min, 100 = max)              |
+
+The __Battery Level__ characteristic is interpreted as the __batteryPercentage__ property in [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware, as processed by its [advlib-ble-services](https://github.com/reelyactive/advlib-ble-services) library, ranging from 0-100.
 
 
 Installing OpenMV
