@@ -46,6 +46,8 @@ This service data would be appended to the _ADV_PAYLOAD byte array as follows:
 
 The __Battery Level__ characteristic is interpreted as the __batteryPercentage__ property in [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware, as processed by its [advlib-ble-services](https://github.com/reelyactive/advlib-ble-services) library, ranging from 0-100.
 
+See our [Best practices for BLE advertising data](https://reelyactive.github.io/diy/best-practices-ble-advertising-data/) tutorial for more details, and for guidance on including additional data types either in the same payload or in separate packets.
+
 
 Installing OpenMV
 -----------------
